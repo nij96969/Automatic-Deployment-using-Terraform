@@ -1,11 +1,13 @@
+This Project aims to automate the deployment process of web applications using Jenkins Pipeline 
+
+Jenkins Pipeline is automatically setup and its steps are mentioned in user_data.sh which is not uploaded on the current repository due to credentials
+
+The required downloading and setup happens in my case i am automating the deployment of LLM Based Docker Generator and Automation
+
 The Basic command to run terraform / in our case we are using it to set up the EC2 instance  
 
 terraform init
 terraform apply
-
-The reason These are not being executed using python because we wont be able to destroy the EC2 instace when needed
-The files that terraform generates when being executed by python won't be stored in the local directory
-This is reason why terraform commands are being executed manually
 
 Once the terraform apply is performed You have send the credentials to the Client/User 
 Thus Send_Credential.py a python file will be executed 
