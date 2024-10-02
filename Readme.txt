@@ -2,7 +2,9 @@ This Project aims to automate the deployment process of web applications using J
 
 Jenkins Pipeline is automatically setup in EC2 and its steps are mentioned in user_data.sh which is not uploaded on the current repository due to important credentials required for setup of the project mentioned later on.
 
-The required downloading and setup happens in my case i am automating the deployment of LLM Based Docker Generator and Automation
+The required downloading and setup happens in my case i am automating the deployment of LLM Based Docker Generator and Automation (flask_app)
+
+Overview of the user_data.sh is provided to refer the flow of setup
 
 The Basic command to run terraform / in our case we are using it to set up the EC2 instance  
 

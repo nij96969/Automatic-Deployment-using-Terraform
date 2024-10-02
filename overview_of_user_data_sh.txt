@@ -1,0 +1,66 @@
+This bash script automates the setup of a Jenkins server, integrates it with a GitHub repository, and deploys a Flask app. Here’s an explanation of each step:
+
+1. Update the Package List and Install Required Software
+   - `sudo apt update -y`: Updates the list of available packages and their versions.
+   - `sudo apt install git python3-pip python3-flask docker.io -y`: Installs Git, Python’s pip package manager, Flask (for web development), and Docker (for containerization).
+
+2. Start Docker
+   - `sudo systemctl start docker`: Starts the Docker service to run containers.
+
+3. Clone Jenkins Automation Repository
+   - `sudo git clone https://<user_name>... /home/ubuntu/Jenkins_Automation`: Clones the GitHub repository containing Jenkins automation scripts into the `/home/ubuntu/Jenkins_Automation` directory.
+
+4. Add Jenkins Key and Repository
+   - `sudo wget -O /usr/share/keyrings/jenkins-keyring.asc`: Downloads Jenkins' GPG key for package verification.
+   - `echo "deb [signed-by=/usr/share/keyrings/...`: Adds Jenkins' official Debian repository to the system's package sources list.
+
+5. Install Jenkins
+   - `sudo apt-get install -y jenkins`: Installs Jenkins, a widely used automation server for continuous integration/continuous delivery (CI/CD).
+   - The script checks if Jenkins is installed using a `while` loop with `dpkg -l | grep --quiet jenkins` and attempts to reinstall it if not found.
+
+6. Install Java (OpenJDK 17)
+   - `sudo apt-get install -y fontconfig openjdk-17-jre`: Installs Java (OpenJDK 17), required for running Jenkins.
+
+7. Enable and Start Jenkins Service
+   - The script ensures that the Jenkins service is enabled to start at boot and starts it using:
+     - `sudo systemctl enable jenkins`
+     - `sudo systemctl start jenkins`
+   - The loop continues checking whether the service is active using `systemctl is-active --quiet jenkins`.
+
+8. Move to Jenkins Automation Folder
+   - `cd Jenkins_Automation`: Navigates to the directory where the Jenkins automation scripts are located.
+
+9. Install Jenkins Plugins
+   - `bash install_plugins.txt`: Executes a script that installs required Jenkins plugins for the CI/CD pipeline.
+
+10. Wait for Jenkins to Start
+   - The script waits 60 seconds in 10-second intervals to allow Jenkins enough time to start fully.
+
+11. Run GitHub Credential Setup
+   - `bash create_github_credentials`: Sets up GitHub credentials for Jenkins to access the repositories.
+
+12. Set up Pipeline
+   - `bash setup_pipeline`: Configures a Jenkins pipeline for automating builds, tests, and deployments.
+
+13. Create GitHub Webhook
+   - `python3 create_github_webhook`: Runs a Python script to create a webhook in GitHub for Jenkins to trigger builds automatically when changes are pushed to the repository.
+
+14. Set Up Jenkins Workspace
+   - The script creates a Jenkins workspace directory and provides the necessary permissions:
+     - `sudo mkdir /var/lib/jenkins/workspace`: Creates the workspace directory for Jenkins jobs.
+     - `sudo chown -R jenkins:jenkins`: Changes the ownership of the workspace to Jenkins.
+     - `sudo chmod -R 755`: Sets proper permissions to ensure Jenkins can access and manage the workspace files.
+
+15. Clone Flask App
+   - `sudo git clone https://<user_name>... /var/lib/jenkins/workspace/flask_app`: Clones the Flask app repository into Jenkins' workspace.
+
+16. Set Permissions for Flask App
+   - The script changes the ownership and permissions of the cloned Flask app to allow Jenkins to manage it:
+     - `sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace/flask_app`
+     - `sudo chmod -R 755 /var/lib/jenkins/workspace/flask_app`
+
+17. Start Flask App
+   - `python3 flask_app/app.py`: Runs the Flask application by executing the `app.py` file.
+
+Summary:
+This script performs a complete Jenkins setup, including installing dependencies, configuring Jenkins, setting up a CI/CD pipeline, and deploying a Flask web application using Jenkins. It also manages permissions for Jenkins to access the necessary files and directories.
