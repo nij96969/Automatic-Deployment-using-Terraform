@@ -1,6 +1,6 @@
 This Project aims to automate the deployment process of web applications using Jenkins Pipeline 
 
-Jenkins Pipeline is automatically setup and its steps are mentioned in user_data.sh which is not uploaded on the current repository due to credentials
+Jenkins Pipeline is automatically setup in EC2 and its steps are mentioned in user_data.sh which is not uploaded on the current repository due to important credentials required for setup of the project mentioned later on.
 
 The required downloading and setup happens in my case i am automating the deployment of LLM Based Docker Generator and Automation
 
